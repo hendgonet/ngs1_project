@@ -60,15 +60,13 @@ ln -s ~/home/ngs-01/workdir/assignment/chr22_with_ERCC92.fa .
 hisat2_extract_splice_sites.py /home/ngs-01/workdir/assignment/chr22_with_ERCC92.gtf > splicesites.tsv
 hisat2_extract_exons.py /home/ngs-01/workdir/assignment/chr22_with_ERCC92.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv chr22_with_ERCC92.fa chr22_with_ERCC92
-
-
 cd ~/workdir/hisat_align
 R1="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R2="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R3="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R4="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R5="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
- hisat2 -p 1 -x hisatIndex/chr22_with_ERCC92 --dta --rna-strandness RF -1 $R1 -2 $R2 -S chr22_with_ERCC92_hisat.sam
+hisat2 -p 1 -x hisatIndex/chr22_with_ERCC92 --dta --rna-strandness RF -1 $R1 -2 $R2 -S chr22_with_ERCC92_hisat.sam
 
 
 
