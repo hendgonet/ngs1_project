@@ -67,6 +67,34 @@ R3="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R4="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 R5="$HOME/workdir/assignment/shuffled.fastq.gz.split/shuffled.part_001.fastq.gz"
 hisat2 -p 1 -x hisatIndex/chr22_with_ERCC92 --dta --rna-strandness RF -1 $R1 -2 $R2 -S chr22_with_ERCC92_hisat.sam
+# Assembly
+# Apply reference-based trasncriptome assembly using stringTie.
+# Step1. For the 5 samples unshuffled.
+# Step2. For the 5 samples shuffled.
+# install Samtools
+source activate ngs1
+conda install samtools
+# convert the SAM file into BAM file 
+samtools view -bS chr22_with_ERCC92_hisat.sam > chr22_with_ERCC92_hisat.bam
+#convert the BAM file to a sorted BAM file. 
+samtools sort chr22_with_ERCC92_hisat.bam -o chr22_with_ERCC92_hisat.sorted.bam
+source activate ngs1
+conda install stringtie
+stringtie chr22_with_ERCC92_hisat.sorted.bam --rf -l ref_free -o ref_free.gtf
+## how many transcript do you have?
+cat ref_free.gtf | grep -v "^@" | awk '$3=="transcript"' | wc -l
 
 
+# Using GTF-Compare to Compare the Generated Annotation Files to a Reference Annotation.
+# create virtual evironment with conda
+conda create -n ngs-gtf python=3.6 anaconda
+source activate ngs-gtf
+conda install -c conda-forge pypy3.5
+wget https://bootstrap.pypa.io/get-pip.py
+pypy3 get-pip.py
+source activate ngs-gtf
+conda install gffcompare
+mkdir -p ~/workdir/assignment/gtf-compare/method_two && cd ~/workdir/assignment/gtf-compare/method_two
+gffcompare -r ../gtfs/ref_sup.gtf ../gtfs/ref_free.gtf
+# Apply Differential Expression.
 
