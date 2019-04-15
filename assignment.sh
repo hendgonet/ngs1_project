@@ -84,4 +84,12 @@ conda install gffcompare
 mkdir -p ~/workdir/assignment/gtf-compare/method_two && cd ~/workdir/assignment/gtf-compare/method_two
 gffcompare -r ../gtfs/ref_sup.gtf ../gtfs/ref_free.gtf
 # Apply Differential Expression.
+set -euo pipefail ## stop execution on errors, https://explainshell.com/explain?cmd=set+-euxo%20pipefail
+
+# Collect program output here.
+RUNLOG=runlog.log
+
+READS=~/workdir/assignment/sample.fastq.gz.split
+REF_ERCC=~/workdir/assignment/chr22_with_ERCC92.fa # Reference
+INDEX_ERCC=~/workdir/assignment/chr22_with_ERCC92.id
 
